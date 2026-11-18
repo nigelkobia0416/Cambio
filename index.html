@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cambio</title>
+<style>
+:root{--felt:#14603c;--deep:#0a3524;--ink:#f6f1e3;--gold:#f2c94c;--red:#d62839;--card:#fdfbf4;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{background:radial-gradient(ellipse at 50% 30%,var(--felt),var(--deep) 85%) fixed;color:var(--ink);font-family:Georgia,"Times New Roman",serif}
+button,input{font:inherit}
+button{font-weight:700;border:0;border-radius:10px;padding:10px 14px;background:var(--card);color:var(--deep);cursor:pointer}
+button:disabled{opacity:.4}
+.go,.cb{background:var(--gold)}.cb{font-size:18px;padding:12px 20px}
+.slam{background:var(--red);color:#fff;font-size:18px;letter-spacing:1px}
+.wrap{max-width:900px;margin:0 auto;padding:12px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;font-size:14px}
+.al{background:var(--gold);color:#222;padding:3px 10px;border-radius:99px;font-weight:700}
+h1{font-size:44px;letter-spacing:6px;text-align:center;margin:10px 0 0;color:var(--gold)}
+.sub{text-align:center;margin:4px 0 14px;opacity:.85}
+.row{display:flex;gap:6px;margin:6px 0}
+.row input{flex:1;min-width:0;padding:10px;border-radius:10px;border:0}
+.tg{background:#ffffff22;color:var(--ink);min-width:96px}.tg.on{background:#ffffff55}
+.x{background:#0003;color:var(--ink)}
+.rules{font-size:14px;line-height:1.5;background:#0003;border-radius:12px;padding:10px 14px;margin-top:14px}
+.mid{display:flex;justify-content:center;align-items:flex-start;gap:18px;margin:14px 0 6px;flex-wrap:wrap}
+.pile{text-align:center}.pile small{display:block;margin-top:4px;opacity:.8}
+.bar{background:#0004;border-radius:14px;padding:10px;text-align:center;margin:8px 0}
+.bar p{margin:2px 0}.msg{opacity:.75;font-size:14px}
+.acts{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+.pns{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:10px}
+.pn{flex:1 1 118px;max-width:200px;background:#0003;border:2px solid transparent;border-radius:14px;padding:8px;text-align:center;font-size:14px}
+.pn.cur{border-color:var(--gold);background:#0005}.pn.w{border-color:#7CFC9A}
+.gr{display:grid;grid-template-columns:repeat(2,max-content);gap:5px;justify-content:center;margin-top:6px}
+.c{width:46px;height:64px;perspective:500px;position:relative;cursor:pointer}
+.c.lg{width:66px;height:92px}.c.lg .f{font-size:24px}
+.ci{position:absolute;inset:0;transition:transform .55s;transform-style:preserve-3d}
+.c.up .ci{transform:rotateY(180deg)}
+.f,.b{position:absolute;inset:0;border-radius:7px;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:700;font-size:16px;line-height:1.1}
+.b{background:repeating-linear-gradient(45deg,#7a1e2b 0 4px,#962a3b 4px 8px);border:2px solid var(--card);align-items:flex-start;justify-content:flex-start}
+.b i{font:10px sans-serif;background:#0007;color:#fff;border-radius:4px;padding:1px 3px;margin:2px}
+.f{background:var(--card);color:#161616;transform:rotateY(180deg);box-shadow:0 1px 3px #0006}.f.r{color:var(--red)}
+.c.sel .ci{outline:3px solid var(--gold);border-radius:7px}
+.c.hot{animation:pl 1.2s infinite}@keyframes pl{50%{filter:drop-shadow(0 0 8px var(--gold))}}
+.e{width:46px;height:64px;border:1px dashed #fff5;border-radius:7px}
+.sh{position:fixed;inset:0;z-index:50;background:var(--deep);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;cursor:pointer}
+.sh h2{font-size:30px;margin:0 0 10px}.sh p{background:var(--gold);color:#222;padding:12px 24px;border-radius:99px;font-weight:700;margin:0}
+.md{position:fixed;inset:0;z-index:40;background:#000a;display:flex;align-items:center;justify-content:center}
+.md div{background:var(--deep);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:8px;min-width:240px}
+.ban{text-align:center;font-size:22px;margin:10px 0 2px}
+.wrap{display:flex;flex-direction:column}
+.top{order:-1}.ban{order:0}.pns.t{order:1}.mid{order:2}.pns.b{order:3}.bar{order:4}
+.bar{position:sticky;bottom:8px;z-index:5;background:#0a2c1d;box-shadow:0 6px 24px #000b}
+.mid{margin:12px auto;padding:16px 30px;border-radius:999px;background:radial-gradient(ellipse,#0000002e,#0000);gap:22px}
+.hs{width:66px;height:92px;border:2px dashed #ffffff44;border-radius:9px}
+.fl{position:fixed;z-index:30;pointer-events:none;filter:drop-shadow(0 10px 10px #0008)}
+.pn{transition:transform .3s,border-color .3s,background .3s}.pn.cur{transform:translateY(-3px);box-shadow:0 0 18px #f2c94c55}
+.sh.dl{animation:shin .5s both}@keyframes shin{from{opacity:0}to{opacity:1}}
+body{background:radial-gradient(ellipse at 50% 15%,#1b2b23,#060b08 80%) fixed}
+.b{background:repeating-linear-gradient(45deg,#b3202a 0 5px,#e0414a 5px 10px);border:3px solid #fff;box-shadow:0 3px 8px #000b}
+.f{box-shadow:0 3px 8px #000a}
+.c,.e{width:var(--cw,46px);height:calc(var(--cw,46px)*1.4)}
+.f,.b{font-size:calc(var(--cw,46px)*.36)}.b i{font-size:calc(var(--cw,46px)*.22)}
+.c.lg,.hs{width:var(--lw,66px);height:calc(var(--lw,66px)*1.4)}.c.lg .f{font-size:calc(var(--lw,66px)*.36)}
+.tb{order:1;position:relative;display:block;padding:28px 12px;margin:12px auto;max-width:640px;width:100%}
+.felt{position:absolute;inset:0;border-radius:50%/42%;background:radial-gradient(ellipse at 50% 45%,#2fa66a,#1a7a49 50%,#0f5532);border:12px solid #2b1a10;box-shadow:inset 0 0 0 3px #c9a24b88,inset 0 0 80px #000c,0 16px 40px #000d}
+.rs{position:relative;z-index:2;display:flex;justify-content:center;gap:6px}
+.tb .mid{position:relative;z-index:2;margin:14px auto;padding:0;background:none;border-radius:0;gap:16px;justify-content:center}
+.pn{flex:none;padding:5px 6px;font-size:12px;background:#0006;border-color:#ffffff22}.pn.cur{border-color:var(--gold)}
+.pn b{display:block;max-width:calc(var(--cw,46px)*2 + 8px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.b{background:repeating-linear-gradient(45deg,#ffffff2e 0 2px,#0000 2px 7px),repeating-linear-gradient(-45deg,#ffffff2e 0 2px,#0000 2px 7px),#c1272d}
+.b::after{content:"";position:absolute;inset:11%;border:1px solid #ffffffb0;border-radius:3px}
+.ix{position:absolute;left:6%;top:3%;font-size:.8em;line-height:1;text-align:center}.ix.r2{left:auto;right:6%;top:auto;bottom:3%;transform:rotate(180deg)}
+.pp{position:absolute;transform:translate(-50%,-50%);font-style:normal;font-size:.8em;line-height:1}.pp.fp{transform:translate(-50%,-50%) rotate(180deg)}.pp.ac{font-size:2em}
+.fc{position:absolute;inset:16% 20%;border:1px solid currentColor;border-radius:3px;display:flex;flex-direction:column;align-items:center;justify-content:space-around;font-weight:700;font-size:1.2em;background:#f3e2a955}.fc i{font-style:normal;font-size:.6em}
+.dp{position:relative;width:var(--lw,66px);height:calc(var(--lw,66px)*1.4)}.pile small{white-space:nowrap}
+.c.stk::after,.c.hl::after{content:"";position:absolute;inset:-4px;border-radius:10px;border:3px solid #ff4d5a;animation:rg 1s ease-in-out infinite;pointer-events:none}.c.hl::after{border-color:#ffe066}
+@keyframes rg{50%{opacity:.35;transform:scale(1.04)}}
+.bar .msg{opacity:1;color:#ffe9a8;font-weight:700}
+.pop{position:absolute;left:50%;top:-4px;white-space:nowrap;font:800 18px system-ui,sans-serif;padding:6px 14px;border-radius:99px;z-index:9;pointer-events:none;animation:popa 1.8s both}.pop.ok{background:#ffd23f;color:#222}.pop.bad{background:#e63946;color:#fff}
+@keyframes popa{0%{opacity:0;transform:translate(-50%,0) scale(.4)}12%{opacity:1;transform:translate(-50%,-100%) scale(1.2)}25%{transform:translate(-50%,-100%) scale(1)}80%{opacity:1}100%{opacity:0;transform:translate(-50%,-170%)}}
+@media (prefers-reduced-motion:reduce){.ci{transition:none}.c.hot{animation:none}}
+</style></head>
+<body><div id="r"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+(()=>{
+const{useState,useEffect,useLayoutEffect,useRef}=React,h=htm.bind(React.createElement);
+const R=['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
+const val=c=>c.r==='K'?('♥♦'.includes(c.s)?-2:13):c.r==='A'?1:['J','Q'].includes(c.r)?10:+c.r;
+const shuf=a=>{for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const mk=n=>{const d=[];let id=0;for(let k=0;k<n;k++)for(const s of '♠♥♦♣')for(const r of R)d.push({r,s,id:id++});return d};
+const top=g=>g.disc[g.disc.length-1];
+const lbl=j=>['TL','TR','BL','BR'][j]||'+'+(j-3);
+const nm=(g,i)=>g.P[i].name;
+const drw=g=>{if(!g.draw.length&&g.disc.length>1){const t=g.disc.pop();g.draw=shuf(g.disc);g.disc=[t]}return g.draw.pop()};
+let SP=1,ME=-1;
+const SB_URL='https://yiomxjylchnjuxfzgfhp.supabase.co',SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlpb214anlsY2huanV4ZnpnZmhwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ5ODY4OTUsImV4cCI6MjExMDU2Mjg5NX0.8DDdVtVaaypjy8D6juQ_pP46fKTAElcWb63xMhzlX6c',T='cambio_rooms';
+const sb=supabase.createClient(SB_URL,SB_KEY);
+const fx=(g,f,t,c,a,b,dl)=>{if(c)g.fx.push({f,t,c,a,b,dl,pv:g.cur,s:g.src})};
+const SN=['top-left','top-right','bottom-left','bottom-right'];
+const PIP={A:[[50,50]],2:[[50,20],[50,80]],3:[[50,20],[50,50],[50,80]],4:[[30,20],[70,20],[30,80],[70,80]],5:[[30,20],[70,20],[50,50],[30,80],[70,80]],6:[[30,20],[70,20],[30,50],[70,50],[30,80],[70,80]],7:[[30,20],[70,20],[50,35],[30,50],[70,50],[30,80],[70,80]],8:[[30,20],[70,20],[50,35],[30,50],[70,50],[50,65],[30,80],[70,80]],9:[[30,17],[70,17],[30,39],[70,39],[50,50],[30,61],[70,61],[30,83],[70,83]],10:[[30,17],[70,17],[50,28],[30,39],[70,39],[30,61],[70,61],[50,72],[30,83],[70,83]]};
+const fh=c=>'<b class="ix">'+c.r+'<br>'+c.s+'</b><b class="ix r2">'+c.r+'<br>'+c.s+'</b>'+('JQK'.includes(c.r)?'<span class="fc"><i>'+c.s+'</i>'+c.r+'<i>'+c.s+'</i></span>':PIP[c.r].map(([x,y])=>'<i class="pp'+(y>50?' fp':'')+(c.r==='A'?' ac':'')+'" style="left:'+x+'%;top:'+y+'%">'+c.s+'</i>').join(''));
+const stk=(g,p,i)=>{const P=g.P[p],cd=P.cards[i],t=top(g);
+ if(cd.r===t.r){fx(g,p+':'+i,'disc',cd,false,true);P.cards[i]=null;delete P.k[i];g.disc.push(cd);g.slam=true;g.msg=P.name+' stacked '+cd.r+cd.s+'!';g.pop={t:P.name+' STACKED '+cd.r+cd.s+'!',k:'ok'}}
+ else{const pc=drw(g);P.cards.push(pc);fx(g,'draw',p+':'+(P.cards.length-1),pc,false,false);g.msg=P.name+' stacked the wrong card — penalty!';g.pop={t:'WRONG! +1 card',k:'bad'}}
+ g.popk=Math.random()};
+const sw=(g,a,b)=>{const A=g.P[a.p],B=g.P[b.p];[A.cards[a.i],B.cards[b.i]]=[B.cards[b.i],A.cards[a.i]];delete A.k[a.i];delete B.k[b.i];fx(g,a.p+':'+a.i,b.p+':'+b.i,B.cards[b.i],false,false);fx(g,b.p+':'+b.i,a.p+':'+a.i,A.cards[a.i],false,false);g.hl=[a.p+':'+a.i,b.p+':'+b.i]};
+const K=k=>document.querySelector('[data-k="'+k+'"]');
+function run(e){const a=K(e.f),b=K(e.t);if(!a||!b)return;let ea=e.a,eb=e.b;if(e.pv!==ME&&e.s==='draw'){if(e.t==='held')eb=false;if(e.f==='held')ea=false}const A=a.getBoundingClientRect(),B=b.getBoundingClientRect(),s=B.width/A.width,dx=B.left-A.left,dy=B.top-A.top,c=e.c;
+ const d=document.createElement('div');d.className='fl';d.style.cssText='left:'+A.left+'px;top:'+A.top+'px;width:'+A.width+'px;height:'+A.height+'px;--cw:'+A.width+'px;--lw:'+A.width+'px';
+ d.innerHTML='<div class="c'+(A.width>56?' lg':'')+(ea?' up':'')+'" style="width:100%;height:100%"><div class="ci"><div class="b"></div><div class="f'+('♥♦'.includes(c.s)?' r':'')+'">'+fh(c)+'</div></div></div>';
+ document.body.appendChild(d);b.style.visibility='hidden';const x=d.firstChild;requestAnimationFrame(()=>x.classList.toggle('up',!!eb));
+ d.animate([{transform:'none'},{transform:'translate('+dx/2+'px,'+(dy/2-26)+'px) scale('+(1+s)*.6+') rotate('+(dx>0?5:-5)+'deg)',offset:.5},{transform:'translate('+dx+'px,'+dy+'px) scale('+s+')'}],{duration:640*SP,delay:(e.dl||0)*SP,easing:'cubic-bezier(.4,.1,.2,1)',fill:'both'}).onfinish=()=>{d.remove();b.style.visibility=''}}
+const end=g=>{g.step='start';g.mode=null;g.held=null;g.view=[];g.sel=[];g.turns++;const n=(g.cur+1)%g.P.length;if(g.cambio!==null&&n===g.cambio){g.st='over';return}g.cur=n;g.shield=false};
+const pw=(g,c)=>{const m=['7','8'].includes(c.r)?'p1':['9','10'].includes(c.r)?'p2':['J','Q'].includes(c.r)?'p3':c.r==='K'&&'♠♣'.includes(c.s)?'p4':null;if(m){g.step='pw';g.mode=m;g.view=[];g.sel=[]}else end(g)};
+const skip=g=>{g.view=[];while(g.pp<g.P.length&&g.P[g.pp].bot)g.pp++;if(g.pp>=g.P.length){g.st='turn';g.cur=0;g.shield=false}else g.shield=false;g.seen=[]};
+function begin(cfg){const d=shuf(mk(cfg.length>4?2:1));const P=cfg.map(c=>({...c,cards:[d.pop(),d.pop(),d.pop(),d.pop()],k:{2:1,3:1}}));
+ const g={st:'peek',cfg,P,draw:d,disc:[d.pop()],pp:0,shield:false,cur:0,step:'start',cambio:null,turns:0,view:[],sel:[],msg:'',slam:false,sl:null,fx:[],fxn:Math.random(),deal:0,hl:[],seen:[],pop:null};g.rd=P.map(q=>q.bot);g.st=g.rd.every(Boolean)?'turn':'peek';for(let j=0;j<4;j++)P.forEach((q,i)=>fx(g,'draw',i+':'+j,q.cards[j],false,false,(j*P.length+i)*70));return g}
+const bslam=(g,p)=>{const t=top(g);return Object.keys(p.k).find(i=>p.cards[i]&&p.cards[i].r===t.r)};
+function bot2(g){
+ if(!g.slam)for(const p of g.P)if(p.bot){const i=bslam(g,p);if(i!==undefined){stk(g,g.P.indexOf(p),i);return}}
+ const p=g.P[g.cur];if(!p.bot)return;
+ let w=-1,wv=-99;p.cards.forEach((c,i)=>{if(!c)return;const v=p.k[i]?val(c):6.5;if(v>wv){wv=v;w=i}});
+ if(g.step==='start'){
+  const est=p.cards.reduce((s,c,i)=>s+(c?(p.k[i]?val(c):6):0),0);
+  if(g.cambio===null&&g.turns>=g.P.length*2&&est<=13&&Math.random()<.6){g.cambio=g.cur;g.msg=p.name+' calls CAMBIO!';return end(g)}
+  const t=top(g);
+  if(w>=0&&val(t)<wv-1&&val(t)<=5){g.held=g.disc.pop();g.src='disc';g.step='drawn';fx(g,'disc','held',g.held,true,true);g.msg=p.name+' takes the '+g.held.r+g.held.s+' from the discard'}
+  else{g.held=drw(g);g.src='draw';g.step='drawn';fx(g,'draw','held',g.held,false,false);g.msg=p.name+' draws a card'}
+  return}
+ if(g.step==='drawn'){
+  const c=g.held;
+  if(w>=0&&(g.src==='disc'||(val(c)<wv-1&&val(c)<=6))){const o=p.cards[w];p.cards[w]=c;p.k[w]=1;g.disc.push(o);g.slam=false;fx(g,'held',g.cur+':'+w,c,g.src==='disc',false);fx(g,g.cur+':'+w,'disc',o,false,true);g.msg=p.name+' swapped their '+(SN[w]||'extra')+' card (out: '+o.r+o.s+')';g.hl=[g.cur+':'+w];end(g)}
+  else{g.held=null;g.disc.push(c);g.slam=false;fx(g,'held','disc',c,false,true);g.msg=p.name+' discards '+c.r+c.s;pw(g,c)}
+  return}
+ if(g.step==='pw'){const m=g.mode;
+  if(m==='p1'){const u=p.cards.findIndex((x,i)=>x&&!p.k[i]);if(u>=0){p.k[u]=1;g.hl=[g.cur+':'+u]}}
+  else if(m==='p3'&&w>=0&&wv>=8){const os=[];g.P.forEach((q,i)=>i!==g.cur&&q.cards.forEach((x,j)=>x&&os.push({p:i,i:j})));if(os.length)sw(g,{p:g.cur,i:w},os[Math.random()*os.length|0])}
+  g.msg=p.name+' uses a power card';end(g)}}
+function botOld(g){
+ if(!g.slam)for(const p of g.P)if(p.bot){const i=bslam(g,p);if(i!==undefined){const c=p.cards[i];p.cards[i]=null;delete p.k[i];g.disc.push(c);g.slam=true;g.msg=p.name+' slammed '+c.r+c.s+'!';return}}
+ const p=g.P[g.cur];if(!p.bot||g.step!=='start')return;
+ const est=p.cards.reduce((s,c,i)=>s+(c?(p.k[i]?val(c):6):0),0);
+ if(g.cambio===null&&g.turns>=g.P.length*2&&est<=13&&Math.random()<.6){g.cambio=g.cur;g.msg=p.name+' calls CAMBIO!';return end(g)}
+ let w=-1,wv=-99;p.cards.forEach((c,i)=>{if(!c)return;const v=p.k[i]?val(c):6.5;if(v>wv){wv=v;w=i}});
+ const put=(c,s)=>{const o=p.cards[w];p.cards[w]=c;p.k[w]=1;g.disc.push(o);g.slam=false;g.msg=p.name+(s?' took the discard, swapping out ':' kept the drawn card, discarding ')+o.r+o.s};
+ const t=top(g);
+ if(w>=0&&val(t)<wv-1&&val(t)<=5){put(g.disc.pop(),1);return end(g)}
+ const c=drw(g);
+ if(w>=0&&val(c)<wv-1&&val(c)<=6){put(c,0);return end(g)}
+ g.disc.push(c);g.slam=false;g.msg=p.name+' discarded '+c.r+c.s;
+ if(['7','8'].includes(c.r)){const u=p.cards.findIndex((x,i)=>x&&!p.k[i]);if(u>=0)p.k[u]=1}
+ else if(['J','Q'].includes(c.r)&&wv>=8){const os=[];g.P.forEach((q,i)=>i!==g.cur&&q.cards.forEach((x,j)=>x&&os.push({p:i,i:j})));if(os.length)sw(g,{p:g.cur,i:w},os[Math.random()*os.length|0])}
+ end(g)}
+const Card=({c,up,on,cls='',lb,k,sty})=>h`<div data-k=${k} style=${sty} className=${'c '+cls+(up&&c?' up':'')} onClick=${on}><div className="ci"><div className="b"><i>${lb}</i></div><div className=${'f'+(c&&'♥♦'.includes(c.s)?' r':'')} dangerouslySetInnerHTML=${{__html:c?fh(c):''}}/></div></div>`;
+const Panel=({g,i,tap,s,w,me,lv})=>{const p=g.P[i];const cur=(g.st==='turn'&&g.cur===i)||(g.st==='peek'&&!g.rd[i]);
+ return h`<div className=${'pn'+(cur?' cur':'')+(w?' w':'')}><b>${p.bot?'🤖 ':''}${p.name}${i===me?' (you)':''}${g.cambio===i?' 📣':''}</b>${s!==undefined?h`<div>${w?'🏆 ':''}${s} pts</div>`:''}
+ <div className="gr">${p.cards.map((c,j)=>c?h`<${Card} key=${j} k=${i+':'+j} c=${c} lb=${lbl(j)} up=${g.st==='over'||(g.st==='peek'?(i===me&&lv.includes(j)):(g.cur===me&&g.view.some(v=>v.p===i&&v.i===j)))} cls=${(g.sel.some(v=>v.p===i&&v.i===j)?'sel':'')+(g.hl.includes(i+':'+j)?' hl':'')} on=${()=>tap(i,j)}/>`:h`<div key=${j} data-k=${i+':'+j} className="e"/>`)}</div></div>`};
+const reset=(s,n)=>{const h2=s.host;for(const k in s)delete s[k];Object.assign(s,n,{host:h2})};
+function App(){
+ const[room,setRoom]=useState(null),ref=useRef(null),sf=useRef(null);
+ const[cid]=useState(()=>{try{let c=localStorage.getItem('cambio-id');if(!c){c=Math.random().toString(36).slice(2,10);localStorage.setItem('cambio-id',c)}return c}catch(e){return Math.random().toString(36).slice(2,10)}});
+ const[name,setName]=useState(()=>{try{return localStorage.getItem('cambio-name')||''}catch(e){return ''}});
+ const[code,setCode]=useState((location.hash||'').replace('#','').toUpperCase().slice(0,4));
+ const[err,setErr]=useState(''),[lv,setLv]=useState([]),[sn,setSn]=useState([]),[sp,setSp]=useState(1);SP=sp;
+ const g=room?room.state:{st:'home',fx:[],hl:[]};
+ const mi=g.P?g.P.findIndex(p=>p.id===cid):-1;ME=mi;
+ const apply=r=>{if(!r||(ref.current&&ref.current.version>=r.version))return;ref.current=r;setRoom(r)};
+ const act=async f=>{if(!ref.current)return;
+  for(let t=0;t<4;t++){const r=ref.current,n=structuredClone(r.state);n.fx=[];n.hl=[];f(n);
+   if(n.fx.length)n.fxn=Math.random();
+   if(JSON.stringify(n)===JSON.stringify(r.state))return;
+   const{data}=await sb.from(T).update({state:n,version:r.version+1}).eq('code',r.code).eq('version',r.version).select();
+   if(data&&data.length){apply(data[0]);return}
+   const{data:d2}=await sb.from(T).select('*').eq('code',r.code).maybeSingle();apply(d2)}};
+ useEffect(()=>{if(!room)return;const c=room.code;
+  const ch=sb.channel('r-'+c).on('postgres_changes',{event:'UPDATE',schema:'public',table:T,filter:'code=eq.'+c},p=>apply(p.new)).subscribe();
+  const iv=setInterval(async()=>{const{data}=await sb.from(T).select('*').eq('code',c).maybeSingle();apply(data)},1500);
+  return()=>{sb.removeChannel(ch);clearInterval(iv)}},[room&&room.code]);
+ useLayoutEffect(()=>{if(sf.current!==null&&sf.current!==g.fxn)(g.fx||[]).forEach(e=>{try{run(e)}catch(_){}});sf.current=room?g.fxn:null},[g.fxn,!!room]);
+ useEffect(()=>{if(g.st!=='turn'||g.host!==cid)return;const cb=g.P[g.cur].bot,sl=!g.slam&&g.P.some(p=>p.bot&&bslam(g,p)!==undefined);
+  if(!cb&&!sl)return;const t=setTimeout(()=>act(bot2),1000*SP);return()=>clearTimeout(t)},[room&&room.version]);
+ const remember=n=>{try{localStorage.setItem('cambio-name',n)}catch(e){}};
+ const create=async()=>{const nm_=name.trim()||'Player';setErr('');remember(nm_);
+  const c=Array.from({length:4},()=>'ABCDEFGHJKLMNPQRSTUVWXYZ'[Math.random()*24|0]).join('');
+  const st={st:'lobby',P:[{id:cid,name:nm_,bot:false}],host:cid,fx:[],hl:[],fxn:0};
+  const{data,error}=await sb.from(T).insert({code:c,version:1,state:st}).select().single();
+  if(error)return setErr('Could not create a room: '+error.message);
+  ref.current=null;sf.current=null;apply(data);location.hash=c};
+ const join=async()=>{const nm_=name.trim()||'Player',c=code.trim().toUpperCase();setErr('');remember(nm_);
+  const{data,error}=await sb.from(T).select('*').eq('code',c).maybeSingle();
+  if(error)return setErr('Connection problem: '+error.message);
+  if(!data)return setErr('Room '+c+' was not found.');
+  const mine=data.state.P.some(p=>p.id===cid);
+  if(!mine&&data.state.st!=='lobby')return setErr('That game has already started.');
+  if(!mine&&data.state.P.length>=8)return setErr('That room is full.');
+  ref.current=null;sf.current=null;apply(data);
+  if(!mine)await act(n=>{n.P.push({id:cid,name:nm_,bot:false})});
+  location.hash=c};
+ if(!room)return h`<div className="wrap"><h1>CAMBIO</h1><p className="sub">Online card game for 2–8 players. Lowest score wins.</p>
+  <div className="row"><input placeholder="Your name" value=${name} maxLength=14 onInput=${e=>setName(e.target.value)}/></div>
+  <div className="acts"><button className="go" onClick=${create}>Create a room</button></div>
+  <p className="sub">…or join a friend’s room</p>
+  <div className="row"><input placeholder="Room code" value=${code} maxLength=4 onInput=${e=>setCode(e.target.value.toUpperCase())}/><button onClick=${join}>Join</button></div>
+  ${err?h`<p className="sub" style=${{color:'#ff9aa2'}}>${err}</p>`:''}
+  <div className="rules"><b>How to play.</b> Lowest score wins: red King −2, Ace 1, 2–10 face value, Jack/Queen 10, black King 13. Flip your two bottom cards and memorize them. On your turn draw from the Draw pile (swap it in or discard it) or take the Discard (must swap). Discarding a card you drew triggers its power: 7/8 peek one of yours, 9/10 peek an opponent’s, J/Q blind-swap any two cards, black K peek two cards then optionally swap them. Spot a match with the discard? Tap your own card to STACK it. Miss and you get a penalty card. Call Cambio at the start of your turn: everyone else gets one last turn, and you win only with the strictly lowest score.</div></div>`;
+ if(g.st==='lobby'){const host=g.host===cid,cnt=g.P.length;
+  return h`<div className="wrap"><h1>CAMBIO</h1><p className="sub">Room code — share it with your friends</p>
+  <div className="ban" style=${{letterSpacing:'10px',fontSize:'46px',color:'#f2c94c'}}>${room.code}</div>
+  <div className="acts"><button onClick=${()=>{try{navigator.clipboard.writeText(location.href.split('#')[0]+'#'+room.code)}catch(e){}}}>📋 Copy invite link</button></div>
+  <div style=${{margin:'12px 0'}}>${g.P.map((p,i)=>h`<div className="row" key=${i}><div className="tg on" style=${{flex:1,padding:'10px',borderRadius:'10px',textAlign:'left'}}>${p.bot?'🤖 ':'🧑 '}${p.name}${p.id===cid?' (you)':''}${p.id===g.host?' ⭐':''}</div>${host&&p.bot?h`<button className="x" onClick=${()=>act(s=>{s.P.splice(i,1)})}>✕</button>`:''}</div>`)}</div>
+  <div className="acts">${host?h`<button disabled=${cnt>=8} onClick=${()=>act(s=>{s.P.push({id:'bot'+Math.random().toString(36).slice(2,6),name:'Bot '+(s.P.filter(p=>p.bot).length+1),bot:true})})}>+ Add bot</button><button className="go" disabled=${cnt<2} onClick=${()=>act(s=>reset(s,begin(s.P.map(p=>({id:p.id,name:p.name,bot:p.bot})))))}>Deal cards</button>`:h`<p className="sub">Waiting for the host to deal…</p>`}</div></div>`}
+ const me=g.P[g.cur],hum=g.cur===mi,m=g.mode,over=g.st==='over';
+ const tap=(p,i)=>{if(g.st==='peek'){if(p===mi&&(i===2||i===3)){setLv(l=>l.includes(i)?l.filter(x=>x!==i):[...l,i]);setSn(s=>s.includes(i)?s:[...s,i])}return}act(g=>{
+  const cd=g.P[p].cards[i];if(!cd||g.shield||g.st==='over')return;
+  if(g.sl!=null){if(p!==g.sl)return;const t=top(g),P=g.P[p];
+   if(cd.r===t.r){fx(g,p+':'+i,'disc',cd,false,true);P.cards[i]=null;delete P.k[i];g.disc.push(cd);g.slam=true;g.msg=P.name+' slammed '+cd.r+cd.s+'!'}
+   else{const pc=drw(g);P.cards.push(pc);fx(g,'draw',p+':'+(P.cards.length-1),pc,false,false);g.msg=P.name+' missed — penalty card!'}
+   g.sl=null;return}
+  if(g.st==='peek'){if(p!==g.pp||i<2||i>3)return;const x=g.view.findIndex(v=>v.i===i);if(x>=0)g.view.splice(x,1);else{g.view.push({p,i});if(!g.seen.includes(i))g.seen.push(i)}return}
+  if(g.st!=='turn')return;
+  const mine=p===g.cur,md=g.mode,pick=g.cur===mi&&((g.step==='drawn'&&mine)||(g.step==='pw'&&((md==='p1'&&mine)||(md==='p2'&&!mine)||md==='p3'||(md==='p4'&&mine)||(md==='p5'&&!mine))));
+  if(!pick){if(p===mi&&!g.slam)stk(g,p,i);return}
+  if(g.step==='drawn'&&mine){fx(g,'held',p+':'+i,g.held,true,false);g.hl=[p+':'+i];fx(g,p+':'+i,'disc',cd,false,true);g.P[p].cards[i]=g.held;g.disc.push(cd);g.slam=false;g.msg=nm(g,p)+' swapped, discarding '+cd.r+cd.s;end(g)}
+  else if(g.step==='pw'){
+   if(((md==='p1'&&mine)||(md==='p2'&&!mine))&&!g.view.length){g.view=[{p,i}];g.hl=[p+':'+i]}
+   else if(md==='p3'){if(g.sel.some(v=>v.p===p&&v.i===i))return;g.sel.push({p,i});if(g.sel.length===2){sw(g,g.sel[0],g.sel[1]);g.msg=nm(g,g.cur)+' blind-swapped two cards';end(g)}}
+   else if(md==='p4'&&mine){g.view=[{p,i}];g.mode='p5'}
+   else if(md==='p5'&&!mine){g.view.push({p,i});g.hl=g.view.map(v=>v.p+':'+v.i);g.mode='p6'}}})};
+ const ok=g.step==='start'&&hum&&g.sl==null&&g.st==='turn';
+ const drawP=()=>ok&&act(g=>{g.held=drw(g);g.src='draw';g.step='drawn';fx(g,'draw','held',g.held,false,true)});
+ const discP=()=>ok&&act(g=>{g.held=g.disc.pop();g.src='disc';g.step='drawn';fx(g,'disc','held',g.held,true,true)});
+ const dis=()=>act(g=>{const c=g.held;g.held=null;fx(g,'held','disc',c,true,true);g.disc.push(c);g.slam=false;g.msg=nm(g,g.cur)+' discarded '+c.r+c.s;pw(g,c)});
+ const slamBtn=()=>act(g=>{const hs=g.P.map((p,i)=>i).filter(i=>!g.P[i].bot);if(hs.length===1)g.sl=hs[0];else g.slm=true});
+ let hint='';
+ if(g.st==='peek')hint=g.rd[mi]?'Waiting for the others to look at their cards…':'Flip BOTH of your bottom cards ('+sn.length+'/2 seen) and memorize them. The game won’t start until everyone has.';
+ else if(over)hint='';
+ else if(g.sl!=null)hint=nm(g,g.sl)+': tap your card that matches the discard ('+top(g).r+').';
+ else if(!hum)hint=me.name+' is playing…';
+ else if(g.step==='start')hint=me.name+', your turn: tap the Draw pile or the Discard pile, or call Cambio.';
+ else if(g.step==='drawn')hint=g.src==='draw'?'Tap one of your cards to swap the drawn card in, or discard it.':'Tap one of your cards to swap it with the discard you took.';
+ else if(g.view.length&&(m==='p1'||m==='p2'))hint='Memorize it, then end your turn.';
+ else hint={p1:'7/8 power: tap one of YOUR cards to peek.',p2:'9/10 power: tap an OPPONENT’s card to peek.',p3:'J/Q power: tap any two cards to blind-swap ('+g.sel.length+'/2).',p4:'Black King: first tap one of YOUR cards to peek.',p5:'Now tap an OPPONENT’s card to peek.',p6:'Swap these two cards, or keep them where they are?'}[m]||'';
+ const sc=over?g.P.map(p=>p.cards.reduce((s,c)=>s+(c?val(c):0),0)):[];let win=[],good=false;
+ if(over){const ca=g.cambio;good=sc.every((s,i)=>i===ca||sc[ca]<s);const mn=Math.min(...sc.filter((_,i)=>i!==ca));win=good?[ca]:sc.map((s,i)=>i!==ca&&s===mn?i:-1).filter(i=>i>=0)}
+ const n=g.P.length,ord=[...Array(n).keys()].map(k=>(Math.max(mi,0)+k)%n),cw=n<3?54:n<5?46:n<7?38:30,lw=n<5?66:54;
+ const rows=z=>{const L=ord.filter((i,k)=>(k<Math.ceil(n/2))===!!z),m=L.length;
+  return h`<div className="rs" key=${'r'+z}>${L.map((i,x)=>h`<div key=${i} style=${{transform:'translateY('+((z?-1:1)*Math.pow((x-(m-1)/2)/Math.max(m/2,1),2)*22)+'px)'}}><${Panel} g=${g} i=${i} tap=${tap} s=${over?sc[i]:undefined} w=${win.includes(i)} me=${mi} lv=${lv}/></div>`)}</div>`};
+ const mid=h`<div className="mid">
+  <div className="pile"><${Card} k="draw" cls=${'lg'+(ok?' hot':'')} lb="DRAW" sty=${{borderRadius:'8px',boxShadow:Array.from({length:Math.min(7,Math.ceil(g.draw.length/10))},(_,k)=>(k+1)+'px '+(k+1)+'px 0 '+(k%2?'#8f1a22':'#f3efe4')).join(',')}} on=${drawP}/><small>Draw pile · ${g.draw.length}</small></div>
+  <div className="pile"><div className="dp">${g.disc.slice(-3,-1).map(c=>h`<${Card} key=${c.id} cls="lg" c=${c} up=${true} sty=${{position:'absolute',left:0,top:0,pointerEvents:'none',transform:'rotate('+((c.id*37)%13-6)+'deg)'}}/>`)}<${Card} k="disc" cls=${'lg'+(ok?' hot':'')+(g.st==='turn'&&!g.slam?' stk':'')} c=${top(g)} up=${true} sty=${{position:'absolute',left:0,top:0}} on=${discP}/></div><small>${g.st==='turn'&&!g.slam?'⚡ stackable':'Discard'}</small></div>
+  <div className="pile"><div className="hs" data-k="held">${g.held?h`<${Card} cls="lg" c=${g.held} up=${g.src==='disc'||hum}/>`:''}</div><small>${g.held?me.name+'’s hand':'Hand'}</small></div>${g.pop?h`<div key=${g.popk} className=${'pop '+g.pop.k}>${g.pop.t}</div>`:''}</div>`;
+ return h`<div className="wrap">
+ ${g.shield&&(g.st==='peek'||g.st==='turn')?h`<div className=${'sh'+(g.deal?' dl':'')} style=${g.deal?{animationDelay:((g.P.length*280+800)*SP)+'ms'}:null} onClick=${()=>act(g=>{g.shield=false;g.deal=0})}><h2>Pass device to ${nm(g,g.st==='peek'?g.pp:g.cur)}</h2><p>Tap to Reveal</p></div>`:''}
+ ${g.slm?h`<div className="md"><div><b>Who’s slamming?</b>${g.P.map((p,i)=>p.bot?'':h`<button key=${i} onClick=${()=>act(g=>{g.sl=i;g.slm=false})}>${p.name}</button>`)}<button className="x" onClick=${()=>act(g=>{g.slm=false})}>Cancel</button></div></div>`:''}
+ <div className="top"><b>CAMBIO · ${room.code}</b>${g.cambio!==null&&!over?h`<span className="al">📣 ${nm(g,g.cambio)} called Cambio — final turns!</span>`:''}<span>Draw pile: ${g.draw.length}</span><button className="x" style=${{padding:'4px 10px'}} onClick=${()=>setSp(sp===1?.6:sp===.6?1.5:1)}>Speed: ${sp===1?'Normal':sp===.6?'Fast':'Slow'}</button></div>
+ ${over?h`<div className="ban">🏆 ${win.map(i=>nm(g,i)).join(' & ')} ${win.length>1?'win':'wins'}!</div><div className="bar"><p>${good?nm(g,g.cambio)+' called Cambio and had the strictly lowest score.':nm(g,g.cambio)+' called Cambio without the strictly lowest score, so they lose automatically.'}</p>
+  ${g.host===cid?h`<div className="acts"><button className="go" onClick=${()=>act(s=>reset(s,begin(s.cfg)))}>Play again</button><button onClick=${()=>act(s=>reset(s,{st:'lobby',P:s.cfg.map(p=>({id:p.id,name:p.name,bot:p.bot})),fx:[],hl:[],fxn:0}))}>Back to lobby</button></div>`:h`<p className="msg">Waiting for the host to start the next round…</p>`}</div>`
+ :h`<div className="bar"><p>${hint}</p>${g.st==='turn'&&!g.slam&&(g.step==='start'||!hum)?h`<p className="msg">⚡ Spot a match? Tap your own card with the same rank as the discard to STACK it!</p>`:''}${g.msg&&g.st==='turn'?h`<p className="msg">${g.msg}</p>`:''}
+  <div className="acts">
+   ${g.st==='peek'&&!g.rd[mi]?h`<button className="go" disabled=${!(sn.includes(2)&&sn.includes(3))} onClick=${()=>{setLv([]);setSn([]);act(g=>{g.rd[mi]=true;if(g.rd.every(Boolean)){g.st='turn';g.cur=0;g.shield=false}})}}>Ready — hide my cards</button>`:''}
+   ${ok?h`<button className="cb" onClick=${()=>act(g=>{g.cambio=g.cur;g.msg=nm(g,g.cur)+' called Cambio!';end(g)})}>Call Cambio!</button>`:''}
+   ${g.st==='turn'&&hum&&g.step==='drawn'&&g.src==='draw'?h`<button onClick=${dis}>Discard it</button>`:''}
+   ${g.st==='turn'&&hum&&g.step==='pw'&&m==='p6'?h`<button className="go" onClick=${()=>act(g=>{sw(g,g.view[0],g.view[1]);g.msg=nm(g,g.cur)+' swapped two cards';end(g)})}>Swap them</button><button onClick=${()=>act(g=>end(g))}>Keep</button>`:''}
+   ${g.st==='turn'&&hum&&g.step==='pw'&&m!=='p6'?h`<button onClick=${()=>act(g=>end(g))}>${g.view.length?'Hide & end turn':'Skip power'}</button>`:''}
+   ${g.st==='turn'&&g.sl!=null?h`<button className="x" onClick=${()=>act(g=>{g.sl=null})}>Cancel slam</button>`:''}
+   
+  </div></div>`}
+ <div className="tb" style=${{'--cw':cw+'px','--lw':lw+'px'}}><div className="felt"/>${rows(0)}${mid}${rows(1)}</div></div>`}
+ReactDOM.createRoot(document.getElementById('r')).render(h`<${App}/>`);
+})();
+</script></body></html>
